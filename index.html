@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-  <title>Joki Tugas PPT WhatsApp</title>
+  <title>Bot Joki Tugas PPT WhatsApp</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -44,14 +44,21 @@
     }
     select, input[type=number], textarea {
       width: 100%;
-      padding: 10px;
+      padding: 6px 10px;
       border-radius: 7px;
       border: none;
       margin-bottom: 20px;
       font-size: 1rem;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       resize: vertical;
-      min-height: 80px;
+      min-height: 50px;
+      background-color: #fff;
+      color: #000;
+      box-sizing: border-box;
+    }
+    /* Make textarea a bit taller but slim */
+    textarea {
+      min-height: 64px;
     }
     .checkbox-label {
       display: flex;
@@ -65,6 +72,7 @@
       margin-right: 10px;
       transform: scale(1.2);
       cursor: pointer;
+      background-color: #fff;
     }
     button, .whatsapp-btn {
       width: 100%;
@@ -84,7 +92,7 @@
       display: inline-block;
     }
     button:hover, .whatsapp-btn:hover {
-      background: #019875;
+      background: #2012db;
     }
     .result {
       margin-top: 20px;
@@ -103,6 +111,9 @@
       h1 {
         font-size: 1.5rem;
       }
+      h4{
+        font-size: 1.5rem;
+      }
       button, .whatsapp-btn {
         font-size: 1rem;
         padding: 10px 0;
@@ -113,14 +124,19 @@
 <body>
   <div class="container" role="main">
     <h1>Joki Tugas PPT
-    <p>|| by ran ||</p> 
-    </h1>
+    <p>|| by ran || </p>
+    <p>==============================</p>
     <p>Harga Slide untuk <strong>SMP:</strong> Rp 3.000/slide</p>
     <p>Harga Slide untuk <strong>SMA/SMK:</strong> Rp 3.500/slide</p>
-    <p>Harga Prioritas (1-5 jam pengerjaan): <strong>SMP:</strong> Rp 5.000/slide, <strong>SMA/SMK:</strong> Rp 6.000/slide</p>
+    <p>Harga Prioritas (1-5 jam pengerjaan):
+    <p><strong>SMP:</strong> Rp 5.000/slide</p>
+    <p><strong>SMA/SMK:</strong> Rp 6.000/slide</p>
     <p>Maksimal slide: 20</p>
     <p>Pengerjaan standar 1 hari kerja.</p>
     <p>Transfer ke <strong>ShopeePay 08973178104</strong></p>
+    <p>==============================</p>
+    <p></p>
+   </h1>
     <form id="pptOrderForm" aria-label="Formulir pemesanan joki tugas PPT">
       <label for="educationLevel">Pilih Jenjang Pendidikan</label>
       <select id="educationLevel" name="educationLevel" required aria-required="true">
