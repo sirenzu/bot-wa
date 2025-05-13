@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-  <title>Joki Tugas PPT WhatsApp</title>
+  <title>Bot Joki Tugas PPT WhatsApp</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -42,13 +42,16 @@
       font-weight: 600;
       color: #a8d0e6;
     }
-    select, input[type=number] {
+    select, input[type=number], textarea {
       width: 100%;
       padding: 10px;
       border-radius: 7px;
       border: none;
       margin-bottom: 20px;
       font-size: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      resize: vertical;
+      min-height: 80px;
     }
     .checkbox-label {
       display: flex;
@@ -63,7 +66,7 @@
       transform: scale(1.2);
       cursor: pointer;
     }
-    button {
+    button, .whatsapp-btn {
       width: 100%;
       background: #00b894;
       border: none;
@@ -75,13 +78,16 @@
       cursor: pointer;
       transition: background 0.3s ease;
       box-shadow: 0 4px 6px rgba(0, 184, 148, 0.6);
+      text-align: center;
+      user-select: none;
+      text-decoration: none;
+      display: inline-block;
     }
-    button:hover {
+    button:hover, .whatsapp-btn:hover {
       background: #019875;
     }
     .result {
       margin-top: 20px;
-      background: #0984e3;
       padding: 15px;
       border-radius: 10px;
       font-size: 1.1rem;
@@ -97,7 +103,7 @@
       h1 {
         font-size: 1.5rem;
       }
-      button {
+      button, .whatsapp-btn {
         font-size: 1rem;
         padding: 10px 0;
       }
@@ -106,14 +112,10 @@
 </head>
 <body>
   <div class="container" role="main">
-    <h1>Joki Tugas PPT
-    <p>|by ran|</p>
-    </h1>
+    <h1>Bot Joki Tugas PPT</h1>
     <p>Harga Slide untuk <strong>SMP:</strong> Rp 3.000/slide</p>
     <p>Harga Slide untuk <strong>SMA/SMK:</strong> Rp 3.500/slide</p>
-    <p>Harga Prioritas (1-5 jam pengerjaan):
-    <p><strong>SMP:</strong> Rp 5.000/slide
-    <p><strong>SMA/SMK:</strong> Rp 6.000/slide</p>
+    <p>Harga Prioritas (1-5 jam pengerjaan): <strong>SMP:</strong> Rp 5.000/slide, <strong>SMA/SMK:</strong> Rp 6.000/slide</p>
     <p>Maksimal slide: 20</p>
     <p>Pengerjaan standar 1 hari kerja.</p>
     <p>Transfer ke <strong>ShopeePay 08973178104</strong></p>
@@ -139,6 +141,15 @@
       />
       <small id="slideCountDesc" style="color:#a8d0e6;">maksimum 20 slide</small>
 
+      <label for="taskDescription">Deskripsi Tugas</label>
+      <textarea 
+        id="taskDescription" 
+        name="taskDescription" 
+        placeholder="Jelaskan tugas PPT yang ingin dibuat..." 
+        required 
+        aria-required="true"
+      ></textarea>
+
       <label class="checkbox-label" for="priorityWork">
         <input type="checkbox" id="priorityWork" name="priorityWork" />
         Pilih Prioritas (1-5 jam pengerjaan)
@@ -160,14 +171,15 @@
         // Get values
         const educationLevel = form.educationLevel.value;
         const slideCountRaw = form.slideCount.value;
+        const taskDescRaw = form.taskDescription.value.trim();
         const isPriority = form.priorityWork.checked;
 
         // Validation
         const slideCount = parseInt(slideCountRaw, 10);
-        if (!educationLevel || isNaN(slideCount) || slideCount < 1 || slideCount > 20) {
+        if (!educationLevel || isNaN(slideCount) || slideCount < 1 || slideCount > 20 || taskDescRaw.length === 0) {
           resultDiv.style.display = 'block';
           resultDiv.style.background = '#d63031';
-          resultDiv.textContent = 'Mohon isi dengan benar: Pilih jenjang pendidikan dan jumlah slide antara 1 sampai 20.';
+          resultDiv.textContent = 'Mohon isi dengan benar: Pilih jenjang pendidikan, jumlah slide antara 1 sampai 20, dan deskripsi tugas.';
           return;
         }
 
@@ -188,6 +200,7 @@
           `Halo, saya ingin memesan jasa joki tugas PPT.` + "\n" +
           `Jenjang pendidikan: ${educationLevel === 'smp' ? 'SMP' : 'SMA/SMK'}` + "\n" +
           `Jumlah slide: ${slideCount}` + "\n" +
+          `Deskripsi tugas: ${taskDescRaw}` + "\n" +
           `Prioritas pengerjaan: ${priorityText}` + "\n" +
           `Harga per slide: Rp ${pricePerSlide.toLocaleString('id-ID')}` + "\n" +
           `Total harga: Rp ${totalPrice.toLocaleString('id-ID')}` + "\n\n" +
@@ -202,17 +215,22 @@
         const waNumber = '628973178104'; // Indonesia country code +62 plus number without 0 prefix
         const waUrl = `https://wa.me/${waNumber}?text=${encodedMessage}`;
 
-        // Show result with link
+        // Show result with WhatsApp button
         resultDiv.style.background = '#00b894';
         resultDiv.style.display = 'block';
         resultDiv.innerHTML =
           `Total harga yang harus dibayar: <strong>Rp ${totalPrice.toLocaleString('id-ID')}</strong><br><br>` +
-          `<a href="${waUrl}" target="_blank" rel="noopener" aria-label="Kirim pesan WhatsApp ke jasa joki tugas PPT" style="color:#fff; text-decoration: underline; font-weight: 700;">` +
-          `Klik di sini untuk kirim pesan WhatsApp pesanan Anda</a>`;
+          `<button class="whatsapp-btn" aria-label="Kirim pesan WhatsApp ke jasa joki tugas PPT">WhatsApp</button>`;
 
+        // Add click event for new WhatsApp button to open link in new tab
+        const waBtn = resultDiv.querySelector('.whatsapp-btn');
+        waBtn.addEventListener('click', () => {
+          window.open(waUrl, '_blank', 'noopener');
+        });
       });
     })();
   </script>
 </body>
 </html>
+
 
